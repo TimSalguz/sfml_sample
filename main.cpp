@@ -5,11 +5,11 @@
 using namespace std::chrono_literals;
 int main()
 {
-    int windowWidth = 1366;
-    int windowHeight = 1000;
+    int windowWidth = 1920;
+    int windowHeight = 600;
     sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "SFML works!");
     float speedCircle = 0.1;
-    float acceleration = 1.001;
+    float acceleration = 0.1;
 
     int radius = windowWidth * 0.05;
     sf::CircleShape circleShape(radius);
@@ -43,22 +43,27 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+
+        speedCircle += acceleration;
         if(speedCircle<0) {
-            acceleration += 0.04;
-            speedCircle *= 0.99;
+            speedCircle *= 0.999;
+            speedCircle += acceleration;
         }
+
         if(shapeCircle_y < windowHeight - radius * 2){
-            acceleration = acceleration+0.0001;
-            speedCircle = speedCircle*acceleration;
             shapeCircle_y = shapeCircle_y+1*speedCircle;
         }
         if(shapeCircle_y > windowHeight - radius * 2)
             shapeCircle_y = windowHeight - radius * 2;
 
-
         if(shapeCircle_y == windowHeight - radius * 2){
-            speedCircle = -0.9*acceleration;
-            shapeCircle_y = shapeCircle_y-0.001;
+            std::cout << speedCircle << std::endl;
+            shapeCircle_y = shapeCircle_y - 0.001;
+            speedCircle = -0.99 * speedCircle;
+            if(abs(speedCircle)<3)
+                speedCircle *= 0.3;
+            if(abs(speedCircle)<0.4)
+                speedCircle = 0;
         }
 
         if(shapeRectangle_y < windowHeight-rectangleHeight)
@@ -75,7 +80,7 @@ int main()
         window.draw(rectangleShape);
         window.draw(triangle);
         window.display();
-        std::this_thread::sleep_for(2ms);
+        std::this_thread::sleep_for(3ms);
     }
 
     return 0;
