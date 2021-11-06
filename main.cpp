@@ -5,8 +5,8 @@
 using namespace std::chrono_literals;
 int main()
 {
-    int windowWidth = 1920;
-    int windowHeight = 600;
+    int windowWidth = 1366;
+    int windowHeight = 768;
     sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "SFML works!");
     float speedCircle = 0.1;
     float acceleration = 0.1;
@@ -47,7 +47,7 @@ int main()
         speedCircle += acceleration;
         if(speedCircle<0) {
             speedCircle *= 0.999;
-            speedCircle += acceleration;
+            speedCircle += acceleration*1.1;
         }
 
         if(shapeCircle_y < windowHeight - radius * 2){
